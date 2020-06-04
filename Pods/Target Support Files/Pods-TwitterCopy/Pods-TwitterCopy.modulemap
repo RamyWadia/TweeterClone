@@ -1,0 +1,6 @@
+framework module Pods_TwitterCopy {
+  umbrella header "Pods-TwitterCopy-umbrella.h"
+
+  export *
+  module * { export * }
+}
