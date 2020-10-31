@@ -33,6 +33,7 @@ class LoginController: UIViewController {
     
     private let emailTextField: UITextField = {
         let tf = Utilites().textField(withPlaceholder: "Email")
+        tf.autocapitalizationType = .none
         return tf
     }()
     
@@ -43,7 +44,7 @@ class LoginController: UIViewController {
     }()
     
     private let loginButon: UIButton = {
-        let button = Utilites().logInSignUpButton(title: "Log in", selector: #selector(loginTapped))
+        let button = Utilites().logInSignUpButton(title: "Log in", selector: #selector(handleLogIn))
         return button
     }()
     
@@ -67,8 +68,18 @@ class LoginController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    @objc func loginTapped() {
-        print("login Tapped")
+    @objc func handleLogIn() {
+        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        AuthService.shared.logUserIn(email: email, password: password) { (result, err) in
+            if let err = err {
+                print("Debug: Error logging in wirh error \(err.localizedDescription)")
+            } else {
+                guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
+                guard let tab = window.rootViewController as? MainTabController else { return }
+                tab.authenticateUserAndConfigureUI()
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     //MARK: - Helpers

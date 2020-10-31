@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainTabController: UITabBarController {
 
@@ -24,14 +25,39 @@ class MainTabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureViewControllers()
-        configureUI()
+         logUserOut()
+        view.backgroundColor = .twitterBlue
+         authenticateUserAndConfigureUI()
     }
     
     //MARK: - Selectors
     
     @objc func actionButtonTapped() {
         print(123)
+    }
+    
+    //MARK: - API
+    
+    func authenticateUserAndConfigureUI() {
+        if Auth.auth().currentUser == nil {
+            DispatchQueue.main.async {
+                let nav = UINavigationController(rootViewController: LoginController())
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true)
+            }
+        } else {
+            configureViewControllers()
+            configureUI()
+        }
+    }
+    
+    func logUserOut() {
+        do {
+            try Auth.auth().signOut()
+            print("Debug: log user out successfully")
+        } catch let error {
+            print("Debug: Faild to sign out with desvription \(error.localizedDescription)")
+        }
     }
     
     //MARK: - Helpers
@@ -43,12 +69,11 @@ class MainTabController: UITabBarController {
     }
     
     fileprivate func configureViewControllers() {
-        
-        let feed         = tamplateNavigationController(image: "home_unselected",            rootViewController: FeedController())
-        let explore      = tamplateNavigationController(image: "search_unselected",          rootViewController: ExploreController())
-        let notification = tamplateNavigationController(image: "like_unselected",            rootViewController: NotificationController())
+        let feed = tamplateNavigationController(image: "home_unselected", rootViewController: FeedController())
+        let explore = tamplateNavigationController(image: "search_unselected", rootViewController: ExploreController())
+        let notification = tamplateNavigationController(image: "like_unselected", rootViewController: NotificationController())
         let conversation = tamplateNavigationController(image: "ic_mail_outline_white_2x-1", rootViewController: ConversationController())
-        viewControllers  = [feed, explore, notification, conversation]
+        viewControllers = [feed, explore, notification, conversation]
     }
     
     fileprivate func tamplateNavigationController(image: String, rootViewController: UIViewController) -> UINavigationController {
