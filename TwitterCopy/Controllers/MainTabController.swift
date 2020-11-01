@@ -13,6 +13,15 @@ class MainTabController: UITabBarController {
 
     //MARK: - Properties
     
+    var user: User? {
+        didSet {
+            print("DEBUG: main tab user is set")
+            guard let nav = viewControllers?[0] as? UINavigationController else { return }
+            guard let feed = nav.viewControllers.first as? FeedController else { return }
+            feed.user = user
+        }
+    }
+    
     let actioButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
@@ -25,7 +34,7 @@ class MainTabController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         logUserOut()
+//         logUserOut()
         view.backgroundColor = .twitterBlue
          authenticateUserAndConfigureUI()
     }
@@ -33,7 +42,11 @@ class MainTabController: UITabBarController {
     //MARK: - Selectors
     
     @objc func actionButtonTapped() {
-        print(123)
+        guard let user = user else { return }
+        let controller = UploadTweetController(user: user)
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
     }
     
     //MARK: - API
@@ -48,6 +61,7 @@ class MainTabController: UITabBarController {
         } else {
             configureViewControllers()
             configureUI()
+            fetchUser()
         }
     }
     
@@ -57,6 +71,12 @@ class MainTabController: UITabBarController {
             print("Debug: log user out successfully")
         } catch let error {
             print("Debug: Faild to sign out with desvription \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchUser() {
+        UserService.shared.fetchUser { user in
+            self.user = user
         }
     }
     

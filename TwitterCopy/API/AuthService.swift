@@ -31,6 +31,7 @@ struct AuthService {
         let username = credentials.username
         let fullname = credentials.fullname
         guard let imageData = credentials.profileImage.jpegData(compressionQuality: 0.3) else {
+            print("DEBUG: some data are missing, cannot register right now")
             return
         }
         let filename = NSUUID().uuidString
@@ -45,7 +46,7 @@ struct AuthService {
                         return
                     }
                     guard let uid = result?.user.uid else { return }
-                    let values = ["email": email , "username": username , "fullname": fullname, "profileImage": profileImageUrl]
+                    let values = ["email": email , "username": username , "fullname": fullname, "profileImageUrl": profileImageUrl]
                     
                     REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: completion)
                 }

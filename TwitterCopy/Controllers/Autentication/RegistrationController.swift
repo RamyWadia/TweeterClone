@@ -67,6 +67,7 @@ class RegistrationController: UIViewController {
     
     private let userNameTextField: UITextField = {
         let tf = Utilites().textField(withPlaceholder: "Username")
+        tf.autocapitalizationType = .none
         return tf
     }()
     
@@ -103,6 +104,7 @@ class RegistrationController: UIViewController {
     }
     
     @objc func handleRegistration() {
+        print("DEBUG: registration button works")
         guard let profileImage = profieImage,
               let email = emailTextField.text,
               let password = passwordTextField.text,
