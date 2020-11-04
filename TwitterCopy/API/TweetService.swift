@@ -26,7 +26,11 @@ struct TweetService {
     func fetchTweets(completion: @escaping([Tweet]) -> Void) {
         var tweets = [Tweet]()
         REF_TWEETS.observe(.childAdded) { snapshot in
-            print("DEBUG: snapshot is \(snapshot.value)")
+            guard let dict = snapshot.value as? [String: Any] else { return }
+            let tweetID = snapshot.key
+            let tweet = Tweet(tweetID: tweetID, dict: dict)
+            tweets.append(tweet)
+            completion(tweets)
         }
     }
 }

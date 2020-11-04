@@ -89,7 +89,9 @@ class MainTabController: UITabBarController {
     }
     
     fileprivate func configureViewControllers() {
-        let feed = tamplateNavigationController(image: "home_unselected", rootViewController: FeedController())
+        
+        let feedCollectionViewController = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        let feed = tamplateNavigationController(image: "home_unselected", rootViewController: feedCollectionViewController)
         let explore = tamplateNavigationController(image: "search_unselected", rootViewController: ExploreController())
         let notification = tamplateNavigationController(image: "like_unselected", rootViewController: NotificationController())
         let conversation = tamplateNavigationController(image: "ic_mail_outline_white_2x-1", rootViewController: ConversationController())
