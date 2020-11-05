@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 
 class MainTabController: UITabBarController {
-
     //MARK: - Properties
     
     var user: User? {
@@ -38,7 +37,6 @@ class MainTabController: UITabBarController {
         view.backgroundColor = .twitterBlue
          authenticateUserAndConfigureUI()
     }
-    
     //MARK: - Selectors
     
     @objc func actionButtonTapped() {
@@ -89,7 +87,6 @@ class MainTabController: UITabBarController {
     }
     
     fileprivate func configureViewControllers() {
-        
         let feedCollectionViewController = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
         let feed = tamplateNavigationController(image: "home_unselected", rootViewController: feedCollectionViewController)
         let explore = tamplateNavigationController(image: "search_unselected", rootViewController: ExploreController())
