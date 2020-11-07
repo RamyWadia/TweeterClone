@@ -76,7 +76,7 @@ class UploadTweetController: UIViewController {
     
     //MARK: - Helpers
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         handleNavigationBar()
         
         let stack = UIStackView(arrangedSubviews: [profileImageView, captionTextView])

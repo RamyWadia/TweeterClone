@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TweetCellDelegate: class {
+    func handleProfileimageTapped()
+}
+
 class TweetCell: UICollectionViewCell {
     //MARK: - Properties
     static let reuseID = "tweetCellReuseID"
@@ -23,6 +27,11 @@ class TweetCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.layer.cornerRadius = 35 / 2
         iv.backgroundColor = .twitterBlue
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleProfileImageTapped))
+        iv.addGestureRecognizer(tap)
+        iv.isUserInteractionEnabled = true
+        
         return iv
     }()
     
@@ -49,12 +58,12 @@ class TweetCell: UICollectionViewCell {
     
     private lazy var shareButton = TweetCellButton(image: "share", action: #selector(handleShareTapped), target: self)
     
-    
+    weak var delegate: TweetCellDelegate?
     
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemGray4
+        backgroundColor = .secondarySystemBackground
         configureUI()
     }
     
@@ -63,6 +72,10 @@ class TweetCell: UICollectionViewCell {
     }
     
     //MARK: - Selectors
+    
+    @objc func handleProfileImageTapped() {
+        delegate?.handleProfileimageTapped()
+    }
     
     @objc func handleCommentTapped() {
         print("comment")
@@ -83,7 +96,13 @@ class TweetCell: UICollectionViewCell {
     //MARK: - Helpers
     
     private func configure() {
-        captionLable.text = tweet?.caption
+        guard let tweet = tweet else { return }
+        let viewModel = TweetViewModel(tweet: tweet)
+        
+        captionLable.text = tweet.caption
+        
+        profileImageView.sd_setImage(with: viewModel.profileImageURL)
+        infoLabel.attributedText = viewModel.userInfoText
     }
     
     private func configureUI() {
@@ -97,7 +116,7 @@ class TweetCell: UICollectionViewCell {
         
         let actionStack = UIStackView(arrangedSubviews: [commentButton, retweetButton, likeButton, shareButton])
         actionStack.axis = .horizontal
-        actionStack.spacing  = 72
+        actionStack.spacing  = 52
         addSubview(actionStack)
         actionStack.centerX(inView: self)
         actionStack.anchor(bottom: bottomAnchor, paddingBottom: 8)

@@ -38,7 +38,7 @@ class FeedController: UICollectionViewController {
     //MARK: - Helpers
     fileprivate func configureUI() {
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: TweetCell.reuseID)
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemBackground
         view.backgroundColor = .white
         
         let imageView = UIImageView(image: UIImage(named: "twitter_logo_blue"))
@@ -66,14 +66,25 @@ extension FeedController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TweetCell.reuseID, for: indexPath) as! TweetCell
+        cell.delegate = self
         cell.tweet = tweets[indexPath.item]
         return cell
     }
 }
 
 //MARK: - CollectionViewFlowLayout
+
 extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 150)
+        return CGSize(width: view.frame.width, height: 110)
+    }
+}
+
+//MARK: - TweetCellDelegate
+
+extension FeedController: TweetCellDelegate {
+    func handleProfileimageTapped() {
+        let profileController = ProfileController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(profileController, animated: true)
     }
 }
