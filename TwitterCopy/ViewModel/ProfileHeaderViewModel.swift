@@ -6,16 +6,27 @@
 //  Copyright © 2020 Ramy Atalla. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
-enum ProfileFilterOption: Int, CaseIterable {
-    case tweets, replies, likes
+struct ProfileHeaderViewModel {
     
-    var discription: String {
-        switch self {
-        case .tweets: return "Tweets"
-        case .replies: return "Tweets & Replies"
-        case .likes: return "Likes"
-        }
+    private let user: User
+    
+    var followersString: NSAttributedString? {
+        return attributedText(withValue: 0, text: "followers")
+    }
+    
+    var followingString: NSAttributedString? {
+        return attributedText(withValue: 0, text: "following")
+    }
+    
+    init(user: User) {
+        self.user = user
+    }
+    
+    private func attributedText(withValue value: Int, text: String) -> NSAttributedString {
+        let attrebutedTitle = NSMutableAttributedString(string: String(value), attributes: [.font : UIFont.boldSystemFont(ofSize: 14)])
+        attrebutedTitle.append(NSAttributedString(string: " \(text)", attributes: [.font: UIFont.boldSystemFont(ofSize: 14), .foregroundColor: UIColor.systemGray3]))
+        return attrebutedTitle
     }
 }

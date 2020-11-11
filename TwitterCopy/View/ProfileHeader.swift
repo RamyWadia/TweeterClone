@@ -76,6 +76,20 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
+    private lazy var followingLabel: UILabel = {
+        let label = UILabel()
+        label.text = "0 Following"
+        let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
+        return label
+    }()
+    
+    private lazy var followersLabel: UILabel = {
+        let label = UILabel()
+        label.text = "2 Followers"
+        let followtTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTaped))
+        return label
+    }()
+    
     private lazy var underlineView: UIView = {
         let view = UIView()
         view.backgroundColor = .twitterBlue
@@ -106,6 +120,14 @@ class ProfileHeader: UICollectionReusableView {
         print("DEBUG: follow button tapped")
     }
     
+    @objc func handleFollowersTaped() {
+        
+    }
+    
+    @objc func handleFollowingTapped() {
+        
+    }
+    
     //MARK: - Helpers
     
     private func configureUI() {
@@ -130,6 +152,14 @@ class ProfileHeader: UICollectionReusableView {
         
         addSubview(userDetailsStack)
         userDetailsStack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 12, paddingRight: 12)
+        
+        let followStack = UIStackView(arrangedSubviews: [followingLabel, followersLabel])
+        followStack.axis = .horizontal
+        followStack.spacing = 8
+        followStack.distribution = .fillEqually
+        
+        addSubview(followStack)
+        followStack.anchor(top: userDetailsStack.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 12)
         
         addSubview(profileFilterView)
         profileFilterView.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 50)
