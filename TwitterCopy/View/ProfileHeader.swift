@@ -8,12 +8,23 @@
 
 import UIKit
 
+protocol ProfileHeaderDelegate: class {
+    func handleDismissal()
+}
+
 class ProfileHeader: UICollectionReusableView {
     
     //MARK: - Properties
     
     static let reuseID = "profileHeaderReuseID"
     
+    var user: User? {
+        didSet {
+            configureUser()
+        }
+    }
+    
+    weak var delegate: ProfileHeaderDelegate?
     private var profileFilterView = ProfileFilterView()
     
     private lazy var containerView: UIView = {
@@ -32,7 +43,7 @@ class ProfileHeader: UICollectionReusableView {
         return button
     }()
     
-    private lazy var profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
@@ -42,7 +53,7 @@ class ProfileHeader: UICollectionReusableView {
         return iv
     }()
     
-    private lazy var editProfileFollowButton: UIButton = {
+    lazy var editProfileFollowButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Loading", for: .normal)
         button.layer.borderColor = UIColor.twitterBlue.cgColor
@@ -53,14 +64,14 @@ class ProfileHeader: UICollectionReusableView {
         return button
     }()
     
-    private lazy var fullnameLabel: UILabel = {
+    lazy var fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.text = "Eddie Brock"
         return label
     }()
     
-    private lazy var usernameLabel: UILabel = {
+    lazy var usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .secondaryLabel
@@ -68,7 +79,7 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
-    private lazy var bioLabel: UILabel = {
+    lazy var bioLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.numberOfLines = 3
@@ -76,16 +87,16 @@ class ProfileHeader: UICollectionReusableView {
         return label
     }()
     
-    private lazy var followingLabel: UILabel = {
+    lazy var followingLabel: UILabel = {
         let label = UILabel()
-        label.text = "0 Following"
+        label.text = ""
         let followTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowingTapped))
         return label
     }()
     
-    private lazy var followersLabel: UILabel = {
+    lazy var followersLabel: UILabel = {
         let label = UILabel()
-        label.text = "2 Followers"
+        label.text = ""
         let followtTap = UITapGestureRecognizer(target: self, action: #selector(handleFollowersTaped))
         return label
     }()
@@ -113,7 +124,7 @@ class ProfileHeader: UICollectionReusableView {
     //MARK: - Selectors
     
     @objc func handleDismissal() {
-        
+        delegate?.handleDismissal()
     }
     
     @objc func handleProfileFollow() {
@@ -121,14 +132,24 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     @objc func handleFollowersTaped() {
-        
+        print("DEBUG: followers button tapped")
     }
     
     @objc func handleFollowingTapped() {
-        
+        print("DEBUG: following button tapped")
     }
     
     //MARK: - Helpers
+    
+    private func configureUser() {
+        guard let user = user else { return }
+        let viewModel = ProfileHeaderViewModel(user: user)
+        
+        followersLabel.attributedText = viewModel.followersString
+        followingLabel.attributedText = viewModel.followersString
+        editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
+        profileImageView.sd_setImage(with: user.profileImageUrl)
+    }
     
     private func configureUI() {
         addSubview(containerView)

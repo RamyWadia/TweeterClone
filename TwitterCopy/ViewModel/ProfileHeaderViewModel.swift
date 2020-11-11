@@ -10,7 +10,7 @@ import UIKit
 
 struct ProfileHeaderViewModel {
     
-    private let user: User
+    let user: User
     
     var followersString: NSAttributedString? {
         return attributedText(withValue: 0, text: "followers")
@@ -18,6 +18,14 @@ struct ProfileHeaderViewModel {
     
     var followingString: NSAttributedString? {
         return attributedText(withValue: 0, text: "following")
+    }
+    
+    var actionButtonTitle: String {
+        if user.isCurrentUser {
+            return "Edit Profile"
+        } else {
+            return "Follow"
+        }
     }
     
     init(user: User) {
