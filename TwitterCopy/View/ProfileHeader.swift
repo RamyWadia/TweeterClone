@@ -149,6 +149,9 @@ class ProfileHeader: UICollectionReusableView {
         followingLabel.attributedText = viewModel.followersString
         editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         profileImageView.sd_setImage(with: user.profileImageUrl)
+        
+        fullnameLabel.text = user.fullname
+        usernameLabel.text = "@" + user.username
     }
     
     private func configureUI() {
