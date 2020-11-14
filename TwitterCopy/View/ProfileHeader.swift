@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProfileHeaderDelegate: class {
     func handleDismissal()
+    func handleEditProfileFollow(_ header: ProfileHeader)
 }
 
 class ProfileHeader: UICollectionReusableView {
@@ -45,7 +46,7 @@ class ProfileHeader: UICollectionReusableView {
     
     lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
+        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
         iv.layer.borderColor = UIColor.white.cgColor
@@ -128,7 +129,8 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     @objc func handleProfileFollow() {
-        print("DEBUG: follow button tapped")
+        delegate?.handleEditProfileFollow(self)
+        
     }
     
     @objc func handleFollowersTaped() {
