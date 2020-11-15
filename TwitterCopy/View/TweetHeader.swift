@@ -12,7 +12,12 @@ class TweetHeader: UICollectionReusableView {
     
     //MARK: - Properties
     
+    var tweet: Tweet? {
+        didSet { configure() }
+    }
+    
     static let reuseID = "tweetHeader"
+    let actionStack = ActionButtonsStack()
     
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -90,7 +95,7 @@ class TweetHeader: UICollectionReusableView {
        let view = UIView()
         
         let devide1 = UIView()
-        devide1.backgroundColor = .systemGroupedBackground
+        devide1.backgroundColor = .quaternaryLabel
         view.addSubview(devide1)
         devide1.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 8, height: 1.0)
         
@@ -101,7 +106,7 @@ class TweetHeader: UICollectionReusableView {
         stack.anchor(left: view.leftAnchor, paddingLeft: 16)
         
         let devide2 = UIView()
-        devide2.backgroundColor = .systemGroupedBackground
+        devide2.backgroundColor = .quaternaryLabel
         view.addSubview(devide2)
         devide2.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 8, height: 1.0)
         
@@ -113,6 +118,7 @@ class TweetHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        actionStack.delegate = self
         configureUI()
     }
     
@@ -140,6 +146,20 @@ class TweetHeader: UICollectionReusableView {
     
     //MARK: - Helpers
     
+    private func configure() {
+        guard let tweet = tweet else { return }
+        let viewModel = TweetViewModel(tweet: tweet)
+        
+        captionLabel.text = viewModel.tweet.caption
+        fullnameLabel.text = viewModel.fullname
+        usernameLabel.text = viewModel.username
+        profileImageView.sd_setImage(with: viewModel.profileImageURL)
+        dateLabel.text = viewModel.headerTimstamp
+        
+        retweetsButton.setAttributedTitle(viewModel.retweetsAttributedSrting, for: .normal)
+        likesButton.setAttributedTitle(viewModel.likesAttributedSrting, for: .normal)
+    }
+    
     private func configureUI() {
         let labelStack = UIStackView(arrangedSubviews: [fullnameLabel, usernameLabel])
         labelStack.axis = .vertical
@@ -163,6 +183,31 @@ class TweetHeader: UICollectionReusableView {
         
         addSubview(statsView)
         statsView.anchor(top: dateLabel.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 20, height: 40)
+        
+        addSubview(actionStack)
+        actionStack.centerX(inView: self)
+        actionStack.anchor(bottom: bottomAnchor, paddingBottom: 8)
+    }
+}
+
+//MARK: - ActionButtonsStackDelegate
+
+extension TweetHeader: ActionButtonsStackDelegate {
+    
+    func handleCommentTapped() {
+        print("comment")
+    }
+    
+    func handleRetweetTapped() {
+        print("retweet")
+    }
+    
+    func handleLikeTapped() {
+        print("like")
+    }
+    
+    func handleShareTapped() {
+        print("share")
     }
     
 }

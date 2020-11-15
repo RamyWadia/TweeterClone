@@ -1,5 +1,5 @@
 //
-//  TweetCellButton.swift
+//  TweetCellActionButton.swift
 //  TwitterCopy
 //
 //  Created by Ramy Atalla on 2020-11-05.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-class TweetCellButton: UIButton {
+class TweetCellActionButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
-    convenience init(image: String, action: Selector, target: UICollectionViewCell) {
+    convenience init(image: String, action: Selector, target: UIView) {
         self.init()
         setImage(UIImage(named: image), for: .normal)
         tintColor = .darkGray

@@ -20,6 +20,8 @@ class TweetCell: UICollectionViewCell {
         didSet { configure() }
     }
     
+    let actionStack = ActionButtonsStack()
+    
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.setDimensions(width: 35, height: 35)
@@ -49,21 +51,14 @@ class TweetCell: UICollectionViewCell {
         label.text = "Ramy Atalla ramy@gmail.com"
         return label
     }()
-    
-    private lazy var commentButton = TweetCellButton(image: "comment", action: #selector(handleCommentTapped), target: self)
-    
-    private lazy var retweetButton = TweetCellButton(image: "retweet", action: #selector(handleRetweetTapped), target: self)
-    
-    private lazy var likeButton = TweetCellButton(image: "like", action: #selector(handleLikeTapped), target: self)
-    
-    private lazy var shareButton = TweetCellButton(image: "share", action: #selector(handleShareTapped), target: self)
-    
+
     weak var delegate: TweetCellDelegate?
     
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .secondarySystemBackground
+        actionStack.delegate = self
         configureUI()
     }
     
@@ -77,24 +72,10 @@ class TweetCell: UICollectionViewCell {
         delegate?.handleProfileimageTapped(self)
     }
     
-    @objc func handleCommentTapped() {
-        print("comment")
-    }
     
-    @objc func handleRetweetTapped() {
-        print("retweet")
-    }
-    
-    @objc func handleLikeTapped() {
-        print("like")
-    }
-    
-    @objc func handleShareTapped() {
-        print("share")
-    }
     
     //MARK: - Helpers
-    
+
     private func configure() {
         guard let tweet = tweet else { return }
         let viewModel = TweetViewModel(tweet: tweet)
@@ -114,11 +95,30 @@ class TweetCell: UICollectionViewCell {
         addSubview(headStack)
         headStack.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, paddingLeft: 8)
         
-        let actionStack = UIStackView(arrangedSubviews: [commentButton, retweetButton, likeButton, shareButton])
-        actionStack.axis = .horizontal
-        actionStack.spacing  = 52
         addSubview(actionStack)
         actionStack.centerX(inView: self)
         actionStack.anchor(bottom: bottomAnchor, paddingBottom: 8)
     }
+}
+
+//MARK: - ActionButtonsStackDelegate
+
+extension TweetCell: ActionButtonsStackDelegate {
+    
+    func handleCommentTapped() {
+        print("comment")
+    }
+    
+    func handleRetweetTapped() {
+        print("retweet")
+    }
+    
+    func handleLikeTapped() {
+        print("like")
+    }
+    
+    func handleShareTapped() {
+        print("share")
+    }
+    
 }
