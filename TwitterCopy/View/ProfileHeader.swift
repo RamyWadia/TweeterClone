@@ -148,7 +148,7 @@ class ProfileHeader: UICollectionReusableView {
         let viewModel = ProfileHeaderViewModel(user: user)
         
         followersLabel.attributedText = viewModel.followersString
-        followingLabel.attributedText = viewModel.followersString
+        followingLabel.attributedText = viewModel.followingString
         editProfileFollowButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         profileImageView.sd_setImage(with: user.profileImageUrl)
         
@@ -192,7 +192,6 @@ class ProfileHeader: UICollectionReusableView {
         
         addSubview(underlineView)
         underlineView.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width / 3, height:  2)
-        
     }
 }
 
