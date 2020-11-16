@@ -40,7 +40,7 @@ struct TweetViewModel {
     }
     
     var userInfoText: NSAttributedString {
-        let title = NSMutableAttributedString(string: user.fullname, attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.label])
+        let title = NSMutableAttributedString(string: user.fullname, attributes: [.font: UIFont.boldSystemFont(ofSize: 14), .foregroundColor: UIColor.label])
         title.append(NSAttributedString(string: " @\(user.username)", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.secondaryLabel]))
         title.append(NSAttributedString(string: " • \(timestamp)", attributes: [.font: UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.secondaryLabel]))
         return title
@@ -64,7 +64,16 @@ struct TweetViewModel {
         let attrebutedTitle = NSMutableAttributedString(string: String(value), attributes: [.font : UIFont.boldSystemFont(ofSize: 14), .foregroundColor : UIColor.label])
         attrebutedTitle.append(NSAttributedString(string: " \(text)", attributes: [.font: UIFont.boldSystemFont(ofSize: 14), .foregroundColor: UIColor.systemGray3]))
         return attrebutedTitle
-        
         #warning("come and refactor this and from the Profile Header")
+    }
+    
+    func size(forWidth width: CGFloat) -> CGSize {
+        let measurmentLabel = UILabel()
+        measurmentLabel.text = tweet.caption
+        measurmentLabel.numberOfLines = 0
+        measurmentLabel.lineBreakMode = .byWordWrapping
+        measurmentLabel.translatesAutoresizingMaskIntoConstraints = false
+        measurmentLabel.widthAnchor.constraint(equalToConstant: width).isActive = true
+        return measurmentLabel.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
     }
 }

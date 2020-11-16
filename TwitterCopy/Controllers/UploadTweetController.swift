@@ -82,6 +82,7 @@ class UploadTweetController: UIViewController {
         let stack = UIStackView(arrangedSubviews: [profileImageView, captionTextView])
         stack.axis = .horizontal
         stack.spacing = 8
+        stack.alignment = .leading
         
         view.addSubview(stack)
         stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16)

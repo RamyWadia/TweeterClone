@@ -81,7 +81,7 @@ class TweetCell: UICollectionViewCell {
         let viewModel = TweetViewModel(tweet: tweet)
         
         captionLable.text = tweet.caption
-        
+    
         profileImageView.sd_setImage(with: viewModel.profileImageURL)
         infoLabel.attributedText = viewModel.userInfoText
     }
@@ -93,7 +93,7 @@ class TweetCell: UICollectionViewCell {
         let headStack = UIStackView(arrangedSubviews: [infoLabel, captionLable])
         headStack.axis = .vertical
         addSubview(headStack)
-        headStack.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, paddingLeft: 8)
+        headStack.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, right: rightAnchor, paddingLeft: 8, paddingRight: 8)
         
         addSubview(actionStack)
         actionStack.centerX(inView: self)
