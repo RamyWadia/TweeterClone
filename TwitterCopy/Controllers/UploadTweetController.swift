@@ -12,6 +12,10 @@ class UploadTweetController: UIViewController {
     
     //MARK: - Properties
     
+    private let user: User
+    private let config: UploadTweetConfiguration
+    private lazy var viewModel = UploadTweetViewModel(config: config)
+    
     private lazy var tweetButton: UIButton = {
         let button = UIButton()
         button.setDimensions(width: 64, height: 32)
@@ -35,14 +39,13 @@ class UploadTweetController: UIViewController {
         return iv
     }()
 
-    private let user: User
-
     private let captionTextView = CaptionTextView()
     
     //MARK: - LifeCycle
     
-    init(user: User) {
+    init(user: User, config: UploadTweetConfiguration) {
         self.user = user
+        self.config = config
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,7 +56,7 @@ class UploadTweetController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        print("DEBUG: the username is \(user.username)")
+        configureTweetOrReply()
     }
 
     //MARK: - Selectors
@@ -75,6 +78,16 @@ class UploadTweetController: UIViewController {
     //MARK: - API
     
     //MARK: - Helpers
+    
+    private func configureTweetOrReply() {
+        switch config {
+        case .tweet:
+            print("Debug: This is a tweet")
+        case .reply(let tweet):
+            print("DEBUG: this is  a reply to \(tweet.user.username)")
+        }
+    }
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         handleNavigationBar()
