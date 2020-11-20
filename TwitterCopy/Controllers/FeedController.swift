@@ -88,19 +88,23 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let viewModel = TweetViewModel(tweet: tweets[indexPath.item])
         let height = viewModel.size(forWidth: view.frame.width).height
-        return CGSize(width: view.frame.width, height: height + 70)
+        return CGSize(width: view.frame.width, height: height + 60)
     }
 }
 
 //MARK: - TweetCellDelegate
 
 extension FeedController: TweetCellDelegate {
-    func handleRetweetTapped(_ cell: TweetCell) {
+    func handleReplyTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
         let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
+    }
+    
+    func handleRetweetTapped(_ cell: TweetCell) {
+        print("DEBUG: Retweet tapped ..")
     }
     
 

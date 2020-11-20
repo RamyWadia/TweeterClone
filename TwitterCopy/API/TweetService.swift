@@ -11,7 +11,7 @@ import Firebase
 struct TweetService {
     static let shared = TweetService()
     
-    func UploadTweet(caption: String, completion: @escaping(Error?, DatabaseReference) -> Void) {
+    func UploadTweet(caption: String, type: UploadTweetConfiguration, completion: @escaping(DatabaseCompletion)) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         let values = ["uid": uid,
@@ -19,11 +19,14 @@ struct TweetService {
                       "likes": 0,
                       "retweets": 0,
                       "caption": caption] as [String: Any]
-        
-        let ref = REF_TWEETS.childByAutoId()
-        ref.updateChildValues(values) { (err, ref) in
-            guard let tweetID = ref.key else { return }
-            REF_USER_TWEETS.child(uid).updateChildValues([tweetID: ""], withCompletionBlock: completion)
+        switch type {
+        case .tweet:
+            REF_TWEETS.childByAutoId().updateChildValues(values) { (err, ref) in
+                guard let tweetID = ref.key else { return }
+                REF_USER_TWEETS.child(uid).updateChildValues([tweetID: ""], withCompletionBlock: completion)
+            }
+        case .reply(let tweet):
+            REF_TWEET_REPLIES.child(tweet.tweetID).childByAutoId().updateChildValues(values, withCompletionBlock: completion)
         }
     }
     
@@ -54,6 +57,21 @@ struct TweetService {
                     tweets.append(tweet)
                     completion(tweets)
                 }
+            }
+        }
+    }
+    
+    func fetchReplies(forTweet tweet: Tweet, completion: @escaping([Tweet]) -> Void) {
+        var replies = [Tweet]()
+        REF_TWEET_REPLIES.child(tweet.tweetID).observe(.childAdded) { snapshot in
+            guard let dict = snapshot.value as? [String: Any] else { return }
+            guard let uid = dict["uid"] as? String else { return }
+            let tweetID = snapshot.key
+            
+            UserService.shared.fetchUser(uid: uid) { (user) in
+                let tweet = Tweet(user: user, tweetID: tweetID, dict: dict)
+                replies.append(tweet)
+                completion(replies)
             }
         }
     }

@@ -10,6 +10,7 @@ import UIKit
 
 protocol TweetCellDelegate: class {
     func handleProfileimageTapped(_ cell: TweetCell)
+    func handleReplyTapped(_ cell: TweetCell)
     func handleRetweetTapped(_ cell: TweetCell)
 }
 
@@ -58,7 +59,7 @@ class TweetCell: UICollectionViewCell {
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .secondarySystemBackground
+        backgroundColor = .green
         actionStack.delegate = self
         configureUI()
     }
@@ -72,8 +73,6 @@ class TweetCell: UICollectionViewCell {
     @objc func handleProfileImageTapped() {
         delegate?.handleProfileimageTapped(self)
     }
-    
-    
     
     //MARK: - Helpers
 
@@ -98,7 +97,7 @@ class TweetCell: UICollectionViewCell {
         
         addSubview(actionStack)
         actionStack.centerX(inView: self)
-        actionStack.anchor(bottom: bottomAnchor, paddingBottom: 8)
+        actionStack.anchor(top: headStack.bottomAnchor, paddingTop: 16)
     }
 }
 
@@ -107,7 +106,7 @@ class TweetCell: UICollectionViewCell {
 extension TweetCell: ActionButtonsStackDelegate {
     
     func handleCommentTapped() {
-        print("comment")
+        delegate?.handleReplyTapped(self)
     }
     
     func handleRetweetTapped() {
@@ -115,11 +114,11 @@ extension TweetCell: ActionButtonsStackDelegate {
     }
     
     func handleLikeTapped() {
-        print("like")
+        print("like (in Cell)")
     }
     
     func handleShareTapped() {
-        print("share")
+        print("share (in Cell)")
     }
     
 }
