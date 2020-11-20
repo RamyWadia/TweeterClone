@@ -94,5 +94,4 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
         let captionHeight = viewModel.size(forWidth: view.frame.width).height
         return CGSize(width: view.frame.width, height: captionHeight + 300)
     }
-    
 }
