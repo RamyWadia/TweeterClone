@@ -59,7 +59,6 @@ class TweetCell: UICollectionViewCell {
     //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .green
         actionStack.delegate = self
         configureUI()
     }

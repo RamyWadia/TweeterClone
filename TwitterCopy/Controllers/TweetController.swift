@@ -13,6 +13,7 @@ class TweetController: UICollectionViewController {
     //MARK: - Peoperties
     
     private let tweet: Tweet
+    private let actionSheetLauncher: ActionSheetLauncher
     private var replies = [Tweet]() {
         didSet {
             collectionView.reloadData()
@@ -23,6 +24,7 @@ class TweetController: UICollectionViewController {
     
     init(tweet: Tweet) {
         self.tweet = tweet
+        self.actionSheetLauncher = ActionSheetLauncher(user: tweet.user)
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -65,6 +67,7 @@ extension TweetController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TweetCell.reuseID, for: indexPath) as! TweetCell
         cell.tweet = replies[indexPath.row]
+        cell.delegate = self
         return cell
     }
 }
@@ -76,6 +79,7 @@ extension TweetController {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TweetHeader.reuseID, for: indexPath) as! TweetHeader
         header.tweet = tweet
+        header.delegate = self
         return header
     }
 }
@@ -93,5 +97,36 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
         let viewModel = TweetViewModel(tweet: tweet)
         let captionHeight = viewModel.size(forWidth: view.frame.width).height
         return CGSize(width: view.frame.width, height: captionHeight + 300)
+    }
+}
+
+
+//MARK: - TweetCellDelegate
+
+extension TweetController: TweetCellDelegate {
+    func handleReplyTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
+    func handleRetweetTapped(_ cell: TweetCell) {
+        print("DEBUG: Retweet tapped ..")
+    }
+    
+    func handleProfileimageTapped(_ cell: TweetCell) {
+        guard let user = cell.tweet?.user else { return }
+        let profileController = ProfileController(user: user)
+        navigationController?.pushViewController(profileController, animated: true)
+    }
+}
+
+//MARK: - TweetHeaderDelegate
+
+extension TweetController: TweetHeaderDelegate {
+    func showActionSheet() {
+        actionSheetLauncher.show()
     }
 }

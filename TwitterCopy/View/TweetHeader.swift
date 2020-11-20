@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol TweetHeaderDelegate: class {
+    func showActionSheet()
+}
+
 class TweetHeader: UICollectionReusableView {
     
     //MARK: - Properties
@@ -17,6 +21,7 @@ class TweetHeader: UICollectionReusableView {
     }
     
     static let reuseID = "tweetHeader"
+    weak var delegate: TweetHeaderDelegate?
     let actionStack = ActionButtonsStack()
     
     private lazy var profileImageView: UIImageView = {
@@ -133,7 +138,7 @@ class TweetHeader: UICollectionReusableView {
     }
     
     @objc func showActionSheet() {
-        print("DEBUG: go to user profile")
+        delegate?.showActionSheet()
     }
     
     @objc func handleRetweetsTapped() {
