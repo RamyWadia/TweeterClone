@@ -123,7 +123,8 @@ extension ProfileController: ProfileHeaderDelegate {
         }
         if user.isFollowed {
             UserService.shared.unfollowUser(uid: user.uid) { [weak self] (err, ref) in
-                self?.user.isFollowed = false
+                guard let self = self else { return }
+                self.user.isFollowed = false
             }
         } else {
             UserService.shared.followUser(uid: user.uid) { (err, ref) in

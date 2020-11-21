@@ -14,7 +14,6 @@ class MainTabController: UITabBarController {
     
     var user: User? {
         didSet {
-            print("DEBUG: main tab user is set")
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
             guard let feed = nav.viewControllers.first as? FeedController else { return }
             feed.user = user

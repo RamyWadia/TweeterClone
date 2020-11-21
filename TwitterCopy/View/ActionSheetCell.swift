@@ -14,6 +14,12 @@ class ActionSheetCell: UITableViewCell {
     
     static let reuseID = "actionSheetCell"
     
+    var option: ActionSheetOption? {
+        didSet {
+            configure()
+        }
+    }
+    
     private let optionImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -44,6 +50,10 @@ class ActionSheetCell: UITableViewCell {
     //MARK: - Selectors
     
     //MARK: - Helpers
+    
+    private func configure() {
+        titileLabel.text = option?.description
+    }
     
     private func configureUI() {
         addSubview(optionImageView)

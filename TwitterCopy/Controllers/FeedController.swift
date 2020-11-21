@@ -36,7 +36,6 @@ class FeedController: UICollectionViewController {
     private func fetchTweets() {
         TweetService.shared.fetchTweets { tweets in
             self.tweets = tweets
-            print(tweets.count)
         }
     }
 

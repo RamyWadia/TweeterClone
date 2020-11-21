@@ -8,7 +8,9 @@
 
 import UIKit
 
-private let reuseID = "ActionSheet"
+protocol ActionSheetLauncherDelegate: class {
+    func didSelect(option: ActionSheetOption)
+}
 
 class ActionSheetLauncher: NSObject {
     
@@ -17,6 +19,9 @@ class ActionSheetLauncher: NSObject {
     private let user: User
     private let tableView = UITableView()
     private var window: UIWindow?
+    private lazy var viewModel = ActionSheetViewModel(user: user)
+    private lazy var tableViewHeigt = CGFloat(viewModel.options.count * 60) + 100
+    weak var delegate: ActionSheetLauncherDelegate?
     
     private lazy var dimView: UIView = {
         let view = UIView()
@@ -61,13 +66,19 @@ class ActionSheetLauncher: NSObject {
     @objc func handleDismissal() {
         UIView.animate(withDuration: 0.5) {
             self.dimView.alpha = 0
-            self.tableView.frame.origin.y += 180
+            self.showTableView(false)
         }
     }
     
     //MARK: - Helpers
     
-    func show() {
+    private func showTableView(_ shouldShow: Bool) {
+        guard let window = window else { return }
+        let y = shouldShow ? window.frame.height - tableViewHeigt : window.frame.height
+        tableView.frame.origin.y = y
+    }
+    
+    func showActionOptions() {
         guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }) else { return }
         self.window = window
         
@@ -75,12 +86,11 @@ class ActionSheetLauncher: NSObject {
         dimView.frame = window.frame
         
         window.addSubview(tableView)
-        let height = CGFloat(3 * 60) + 100
-        tableView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: height)
+        tableView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: tableViewHeigt)
         
         UIView.animate(withDuration: 0.5) {
             self.dimView.alpha = 1
-            self.tableView.frame.origin.y -= height
+            self.showTableView(true)
         }
     }
     
@@ -100,12 +110,12 @@ class ActionSheetLauncher: NSObject {
 
 extension ActionSheetLauncher: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return viewModel.options.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ActionSheetCell.reuseID, for: indexPath) as! ActionSheetCell
-        
+        cell.option = viewModel.options[indexPath.row]
         return cell
     }
 }
@@ -120,7 +130,18 @@ extension ActionSheetLauncher: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 60
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let option = viewModel.options[indexPath.row]
+        print("DEBUG: option description is \(option.description)")
+        UIView.animate(withDuration: 0.5) {
+            self.dimView.alpha = 0
+            self.showTableView(false)
+        } completion: { _ in
+            print("Debug: option is \(option.description)")
+            self.delegate?.didSelect(option: option)
+        }
+    }
 }
     
     
