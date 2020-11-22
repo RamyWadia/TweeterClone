@@ -10,6 +10,10 @@ import UIKit
 
 protocol TweetHeaderDelegate: class {
     func showActionSheet()
+    func handleReplyTapped(_ header: TweetHeader)
+    func handleRetweetTapped(_ header: TweetHeader)
+    func handleLikeTapped(_ header: TweetHeader)
+    func handleShareTapped(_ header: TweetHeader)
 }
 
 class TweetHeader: UICollectionReusableView {
@@ -199,20 +203,20 @@ class TweetHeader: UICollectionReusableView {
 
 extension TweetHeader: ActionButtonsStackDelegate {
     
-    func handleCommentTapped() {
-        print("comment")
+    func handleReplyTapped() {
+        delegate?.handleReplyTapped(self)
     }
     
     func handleRetweetTapped() {
-        print("retweet")
+        delegate?.handleRetweetTapped(self)
     }
     
     func handleLikeTapped() {
-        print("like")
+        delegate?.handleLikeTapped(self)
     }
     
     func handleShareTapped() {
-        print("share")
+        delegate?.handleShareTapped(self)
     }
     
 }

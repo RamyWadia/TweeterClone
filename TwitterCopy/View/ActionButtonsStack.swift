@@ -9,7 +9,7 @@
 import UIKit
 
 protocol ActionButtonsStackDelegate: class {
-    func handleCommentTapped()
+    func handleReplyTapped()
     func handleRetweetTapped()
     func handleLikeTapped()
     func handleShareTapped()
@@ -21,11 +21,11 @@ class ActionButtonsStack: UIStackView {
     
     weak var delegate: ActionButtonsStackDelegate?
     
-    private lazy var commentButton = TweetCellActionButton(image: "comment", action: #selector(handleCommentTapped), target: self)
+    private lazy var replyButton = TweetCellActionButton(image: "comment", action: #selector(handleReplyTapped), target: self)
     
     private lazy var retweetButton = TweetCellActionButton(image: "retweet", action: #selector(handleRetweetTapped), target: self)
     
-    private lazy var likeButton = TweetCellActionButton(image: "like", action: #selector(handleLikeTapped), target: self)
+    lazy var likeButton = TweetCellActionButton(image: "like", action: #selector(handleLikeTapped), target: self)
     
     private lazy var shareButton = TweetCellActionButton(image: "share", action: #selector(handleShareTapped), target: self)
     
@@ -41,8 +41,8 @@ class ActionButtonsStack: UIStackView {
     
     //MARK: - Selectors
     
-    @objc func handleCommentTapped() {
-        delegate?.handleCommentTapped()
+    @objc func handleReplyTapped() {
+        delegate?.handleReplyTapped()
     }
     
     @objc func handleRetweetTapped() {
@@ -61,7 +61,7 @@ class ActionButtonsStack: UIStackView {
     
     fileprivate func configureUI() {
         spacing = 72
-        let views = [commentButton, retweetButton, likeButton, shareButton]
+        let views = [replyButton, retweetButton, likeButton, shareButton]
         for view in views {
             addArrangedSubview(view)
         }

@@ -105,10 +105,10 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
 //MARK: - TweetCellDelegate
 
 extension TweetController: TweetCellDelegate {
+    
     func handleReplyTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
         let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
@@ -121,6 +121,14 @@ extension TweetController: TweetCellDelegate {
         print("DEBUG: Retweet tapped ..")
     }
     
+    func handleLikeTapped(_ cell: TweetCell) {
+        print("DEBUG: Like tapped ..")
+    }
+    
+    func handleShareTapped(_ cell: TweetCell) {
+        print("DEBUG: Share tapped ..")
+    }
+    
     func handleProfileimageTapped(_ cell: TweetCell) {
         guard let user = cell.tweet?.user else { return }
         let profileController = ProfileController(user: user)
@@ -131,6 +139,21 @@ extension TweetController: TweetCellDelegate {
 //MARK: - TweetHeaderDelegate
 
 extension TweetController: TweetHeaderDelegate {
+    func handleReplyTapped(_ header: TweetHeader) {
+        print("DEBUG: Reply tapped from header..")
+    }
+    
+    func handleRetweetTapped(_ header: TweetHeader) {
+        print("DEBUG: Retweet tapped from header..")
+    }
+    
+    func handleLikeTapped(_ header: TweetHeader) {
+        print("DEBUG: Like tapped from header..")
+    }
+    
+    func handleShareTapped(_ header: TweetHeader) {
+        print("DEBUG: Share tapped from header..")
+    }
     
     func showActionSheet() {
         if tweet.user.isCurrentUser {

@@ -53,6 +53,15 @@ struct TweetViewModel {
     var likesAttributedSrting: NSAttributedString {
         return attributedText(withValue: tweet.likes, text: "Likes")
     }
+    
+    var likeButtonTintColor: UIColor {
+        return tweet.didLike ? .systemRed : .systemGray2
+    }
+    
+    var likeButtonImage: UIImage {
+        let imageName = tweet.didLike ? "like_filled" : "like"
+        return UIImage(named: imageName)!
+    }
 
     
     init(tweet: Tweet) {
