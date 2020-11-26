@@ -78,6 +78,11 @@ class UploadTweetController: UIViewController {
         TweetService.shared.UploadTweet(caption: caption, type: config) { err, ref in
             if let err = err {
                 print("DEBUG: Failed to upload tweet with error \(err.localizedDescription)")
+                return
+            }
+            
+            if case .reply(let tweet) = self.config {
+                NotificationService.shared.UploadNotification(type: .reply, tweet: tweet)
             }
             self.dismiss(animated: true, completion: nil)
         }

@@ -34,6 +34,10 @@
 		583AEF8F255DC90000D38153 /* ExplorerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583AEF8E255DC90000D38153 /* ExplorerViewModel.swift */; };
 		5851AAEC25684623006DCB34 /* ActionSheetLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5851AAEB25684623006DCB34 /* ActionSheetLauncher.swift */; };
 		586D09A12559D561001084E4 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 586D09A02559D561001084E4 /* ProfileHeaderViewModel.swift */; };
+		5880C3A8256FD55200448B4F /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880C3A7256FD55200448B4F /* Notification.swift */; };
+		5880C3AB256FE3A500448B4F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880C3AA256FE3A500448B4F /* NotificationService.swift */; };
+		5880C3AE257012F500448B4F /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880C3AD257012F500448B4F /* NotificationCell.swift */; };
+		5880C3B12570206200448B4F /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5880C3B02570206200448B4F /* NotificationViewModel.swift */; };
 		58A39BF425580FD000802D7E /* ProfileFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A39BF325580FD000802D7E /* ProfileFilterView.swift */; };
 		58A39BF72558138600802D7E /* ProfileFilterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A39BF62558138600802D7E /* ProfileFilterCell.swift */; };
 		58B7747D2489835500D01018 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58B7747C2489835500D01018 /* GoogleService-Info.plist */; };
@@ -80,6 +84,10 @@
 		583AEF8E255DC90000D38153 /* ExplorerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerViewModel.swift; sourceTree = "<group>"; };
 		5851AAEB25684623006DCB34 /* ActionSheetLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetLauncher.swift; sourceTree = "<group>"; };
 		586D09A02559D561001084E4 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
+		5880C3A7256FD55200448B4F /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		5880C3AA256FE3A500448B4F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		5880C3AD257012F500448B4F /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		5880C3B02570206200448B4F /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		58A39BF325580FD000802D7E /* ProfileFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterView.swift; sourceTree = "<group>"; };
 		58A39BF62558138600802D7E /* ProfileFilterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFilterCell.swift; sourceTree = "<group>"; };
 		58B7747C2489835500D01018 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -165,6 +173,7 @@
 				58B774802489AF2400D01018 /* AuthService.swift */,
 				58E0FC78254EC18400F13570 /* UserService.swift */,
 				58E78110254F57A300C3D348 /* TweetService.swift */,
+				5880C3AA256FE3A500448B4F /* NotificationService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -193,6 +202,7 @@
 				583AEF8E255DC90000D38153 /* ExplorerViewModel.swift */,
 				58E3895C25650B4000E3BB4E /* UploadTweetViewModel.swift */,
 				5803D77425693F4A00159424 /* ActionSheetViewModel.swift */,
+				5880C3B02570206200448B4F /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -210,6 +220,7 @@
 				583AEF8B255DB66500D38153 /* UserCell.swift */,
 				581544FE25613CCE002C7DF0 /* TweetHeader.swift */,
 				5832039A256862CD00DB6846 /* ActionSheetCell.swift */,
+				5880C3AD257012F500448B4F /* NotificationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -219,6 +230,7 @@
 			children = (
 				58E0FC7B254ECD9700F13570 /* User.swift */,
 				583A82D02551F0A3006E85F7 /* Tweet.swift */,
+				5880C3A7256FD55200448B4F /* Notification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -372,10 +384,13 @@
 				583AEF8F255DC90000D38153 /* ExplorerViewModel.swift in Sources */,
 				5802BE2B24811E6E00D52743 /* NotificationController.swift in Sources */,
 				58C6B33A2553ED8F00D07738 /* TweetCellActionButton.swift in Sources */,
+				5880C3B12570206200448B4F /* NotificationViewModel.swift in Sources */,
+				5880C3AE257012F500448B4F /* NotificationCell.swift in Sources */,
 				58E0FC7C254ECD9700F13570 /* User.swift in Sources */,
 				581544FC25613565002C7DF0 /* TweetController.swift in Sources */,
 				58154502256170A3002C7DF0 /* ActionButtonsStack.swift in Sources */,
 				58E0FC91254EEFB200F13570 /* UploadTweetController.swift in Sources */,
+				5880C3A8256FD55200448B4F /* Notification.swift in Sources */,
 				58E0FC95254F307A00F13570 /* CaptionTextView.swift in Sources */,
 				5802BE09248114A400D52743 /* AppDelegate.swift in Sources */,
 				5837CF6D24819BBC00BFB137 /* LogInController.swift in Sources */,
@@ -391,6 +406,7 @@
 				5802BE2D24811E8900D52743 /* ConversationController.swift in Sources */,
 				583A65C72557354200D80451 /* ProfileHeader.swift in Sources */,
 				5803D77525693F4A00159424 /* ActionSheetViewModel.swift in Sources */,
+				5880C3AB256FE3A500448B4F /* NotificationService.swift in Sources */,
 				583A65C32557182F00D80451 /* ProfileController.swift in Sources */,
 				58E0FC79254EC18400F13570 /* UserService.swift in Sources */,
 				5851AAEC25684623006DCB34 /* ActionSheetLauncher.swift in Sources */,
