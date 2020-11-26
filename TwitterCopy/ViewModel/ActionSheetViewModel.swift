@@ -18,8 +18,8 @@ struct ActionSheetViewModel {
         if user.isCurrentUser {
             results.append(.delete)
         } else {
-            var followOption: ActionSheetOption = user.isFollowed ? .unfollow(user) : .follow(user)
-//            assert(user.isFollowed == false, "The user does not show if followed or not")
+            let followOption: ActionSheetOption = user.isFollowed ? .unfollow(user) : .follow(user)
+//            assert(user.isFollowed == false, "usFollowed still gives wrong result")
             results.append(followOption)
         }
         results.append(.report)

@@ -25,6 +25,7 @@ class FeedController: UICollectionViewController {
         super.viewDidLoad()
         configureUI()
         fetchTweets()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,11 +34,11 @@ class FeedController: UICollectionViewController {
     }
     
     //MARK: - API
+    
     fileprivate func checkIfUserLikedTweets(_ tweets: [Tweet]) {
         for (index, tweet) in tweets.enumerated() {
             TweetService.shared.checkIfUserLikedTweet(tweet) { didLike in
                 guard didLike == true else { return }
-                
                 self.tweets[index].didLike = true
             }
         }
@@ -48,6 +49,7 @@ class FeedController: UICollectionViewController {
             self.tweets = tweets
             self.checkIfUserLikedTweets(tweets)
         }
+        
     }
 
     //MARK: - Helpers

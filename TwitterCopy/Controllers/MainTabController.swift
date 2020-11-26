@@ -36,7 +36,7 @@ class MainTabController: UITabBarController {
         view.backgroundColor = .twitterBlue
          authenticateUserAndConfigureUI()
     }
-    //MARK: - Selectors
+    //MARK: - Selectors 
     
     @objc func actionButtonTapped() {
         guard let user = user else { return }
